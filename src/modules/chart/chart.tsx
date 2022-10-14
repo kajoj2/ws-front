@@ -79,7 +79,7 @@ class Chart extends React.Component<{}, { props:ChartInt, options:object }> {
   };
 
   componentDidMount() {
-    axios.get(`http://localhost:5000/Data/` + this.props.dataType +`/24h/ChartData`).then((res) => {
+    axios.get(`http://s0.kajoj.com/Data/` + this.props.dataType +`/24h/ChartData`).then((res) => {
       const data = res.data;
       console.log(data);
       this.setState({
