@@ -31,10 +31,20 @@ ChartJS.register(
 )
 
 export const Container = styled.div`
-  display: flex;
+  // display: flex;
+  // justify-content: center;
+  // align-content: stretch ;
+  width:100vw;
+  max-width: 1280px;
+
 `;
 
-class Chart extends React.Component<{}, { data: object, options:object }> {
+interface ChartInt {
+  dataType: string;
+  color: string
+}
+
+class Chart extends React.Component<{}, { props:ChartInt, options:object }> {
   constructor(props: {} ) {
     super(props);
     this.state = { data: {
@@ -58,7 +68,7 @@ class Chart extends React.Component<{}, { data: object, options:object }> {
       },
       title: {
         display: true,
-        text: "Chart.js Line Chart",
+        text: this.props.dataType ,
       },
     },
     scales: {
@@ -69,15 +79,15 @@ class Chart extends React.Component<{}, { data: object, options:object }> {
   };
 
   componentDidMount() {
-    axios.get(`http://s0.kajoj.com:8080/Data`).then((res) => {
+    axios.get(`http://localhost:5000/Data/` + this.props.dataType +`/24h/ChartData`).then((res) => {
       const data = res.data;
       console.log(data);
       this.setState({
         data: {
           datasets: [
             {
-              backgroundColor: "#ffb703"	,
-              borderColor: "#fb8500",
+              backgroundColor: this.props.color	,
+              borderColor: this.props.color,
               data: data,
             },
           ],
@@ -87,7 +97,7 @@ class Chart extends React.Component<{}, { data: object, options:object }> {
     });
   }
   render() {
-    return <Container>test
+    return <Container>
       <Line options={this.state.options} data={this.state.data} />
     </Container>;
   }
